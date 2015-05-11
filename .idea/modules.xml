@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DatePicker/DatePicker.iml" filepath="$PROJECT_DIR$/DatePicker/DatePicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RefreshView/RefreshView.iml" filepath="$PROJECT_DIR$/RefreshView/RefreshView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SlidingMenu/SlidingMenu.iml" filepath="$PROJECT_DIR$/SlidingMenu/SlidingMenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SuperToast/SuperToast.iml" filepath="$PROJECT_DIR$/SuperToast/SuperToast.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ThirdLibrary.iml" filepath="$PROJECT_DIR$/ThirdLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ThirdLibraryDemo/ThirdLibraryDemo.iml" filepath="$PROJECT_DIR$/ThirdLibraryDemo/ThirdLibraryDemo.iml" />
+    </modules>
+  </component>
+</project>

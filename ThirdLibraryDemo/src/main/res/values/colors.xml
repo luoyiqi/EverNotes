@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="red">#ff0000</color>
+    <color name="dark_grey">#222222</color>
+
+    <color name="green">#090</color>
+    <color name="youlan">#0b6aff</color>
+    <color name="youlan2">#ff005092</color>
+    <color name="blue">#0b6aff</color>
+    <color name="black">#000000</color>
+    <color name="white_pressed">#50ffffff</color>
+    <color name="gray">#d3d4d3</color>
+
+</resources>

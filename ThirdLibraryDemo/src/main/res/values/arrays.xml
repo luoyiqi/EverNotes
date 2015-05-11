@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="navigation_list">
+        <item>"SuperToast"</item>
+        <item>"SuperActivityToast"</item>
+        <item>"SuperCardToast"</item>
+    </array>
+
+    <array name="animation_list">
+        <item>"Fade"</item>
+        <item>"Fly"</item>
+        <item>"Pop"</item>
+        <item>"Scale"</item>
+    </array>
+
+    <array name="duration_list">
+        <item>"Short"</item>
+        <item>"Medium"</item>
+        <item>"Long"</item>
+    </array>
+
+    <array name="background_list">
+        <item>"Black"</item>
+        <item>"Grey"</item>
+        <item>"Green"</item>
+        <item>"Blue"</item>
+        <item>"Red"</item>
+        <item>"Purple"</item>
+        <item>"Orange"</item>
+    </array>
+
+    <array name="text_size_list">
+        <item>"Small"</item>
+        <item>"Medium"</item>
+        <item>"Large"</item>
+    </array>
+
+    <array name="dismiss_function_list">
+        <item>"None"</item>
+        <item>"Swipe"</item>
+        <item>"Touch"</item>
+    </array>
+
+    <array name="names_list">
+        <item>John</item>
+        <item>Chris</item>
+        <item>Olaf</item>
+        <item>Alyssa</item>
+        <item>Sarah</item>
+        <item>Neav</item>
+    </array>
+
+    <string-array name="birds">
+        <item>Eagle</item>
+        <item>Flamingo</item>
+        <item>Heron</item>
+        <item>Ostrich</item>
+        <item>Peacock</item>
+        <item>Penguin</item>
+        <item>Toucan</item>
+        <item>Turkey</item>
+        <item>Vulture</item>
+    </string-array>
+    <string-array name="birds_img">
+        <item>@drawable/eagle</item>
+        <item>@drawable/flamingo</item>
+        <item>@drawable/heron</item>
+        <item>@drawable/ostrich</item>
+        <item>@drawable/peacock</item>
+        <item>@drawable/penguin</item>
+        <item>@drawable/toucan</item>
+        <item>@drawable/turkey</item>
+        <item>@drawable/vulture</item>
+    </string-array>
+
+</resources>
