@@ -11,6 +11,7 @@
         <item>"Fly"</item>
         <item>"Pop"</item>
         <item>"Scale"</item>
+        <item>"Bottom"</item>
     </array>
 
     <array name="duration_list">
