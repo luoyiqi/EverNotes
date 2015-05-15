@@ -17,8 +17,6 @@
 
 package feifei.library.supertoast;
 
-import java.util.LinkedList;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -50,7 +48,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import feifei.library.supertoast.R;
+
+import java.util.LinkedList;
+
 import feifei.library.supertoast.SuperToast.Animations;
 import feifei.library.supertoast.SuperToast.IconPosition;
 import feifei.library.supertoast.SuperToast.Type;
@@ -838,7 +838,6 @@ public class SuperCardToast {
 	}
 
 	/**
-	 * Used in {@value #MANAGER_TAG}.
 	 */
 	protected OnDismissWrapper getOnDismissWrapper() {
 
@@ -856,7 +855,6 @@ public class SuperCardToast {
 	}
 
 	/**
-	 * Dismisses the {@value #TAG}.
 	 */
 	public void dismiss() {
 

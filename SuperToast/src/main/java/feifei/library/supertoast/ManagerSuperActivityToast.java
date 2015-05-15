@@ -154,7 +154,7 @@ class ManagerSuperActivityToast extends Handler {
                         superActivityToast.getOnDismissWrapper().onDismiss(
                                 superActivityToast.getView());
                     }
-					/* Show the SuperActivityToast next in the list if any exist */
+                    /* Show the SuperActivityToast next in the list if any exist */
                     ManagerSuperActivityToast.this.showNextSuperToast();
                 }
 
@@ -215,113 +215,103 @@ class ManagerSuperActivityToast extends Handler {
         return mList;
     }
 
-    /**
-     * Returns an animation based on the
-     * {@link feifei.library.supertoast.SuperToast.Animations} enums
-     */
     private Animation getShowAnimation(SuperActivityToast superActivityToast) {
-        if (superActivityToast.getAnimations() == SuperToast.Animations.FLYIN) {
-            TranslateAnimation translateAnimation = new TranslateAnimation(
-                    Animation.RELATIVE_TO_SELF, 0.75f,
-                    Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, 0.0f);
-            AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-            AnimationSet animationSet = new AnimationSet(true);
-            animationSet.addAnimation(translateAnimation);
-            animationSet.addAnimation(alphaAnimation);
-            animationSet.setInterpolator(new DecelerateInterpolator());
-            animationSet.setDuration(250);
-            return animationSet;
-
-        } else if (superActivityToast.getAnimations() == SuperToast.Animations.SCALE) {
-            ScaleAnimation scaleAnimation = new ScaleAnimation(0.9f, 1.0f,
-                    0.9f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
-                    Animation.RELATIVE_TO_SELF, 0.5f);
-            AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-            AnimationSet animationSet = new AnimationSet(true);
-            animationSet.addAnimation(scaleAnimation);
-            animationSet.addAnimation(alphaAnimation);
-            animationSet.setInterpolator(new DecelerateInterpolator());
-            animationSet.setDuration(250);
-            return animationSet;
-
-        } else if (superActivityToast.getAnimations() == SuperToast.Animations.POPUP) {
-            TranslateAnimation translateAnimation = new TranslateAnimation(
-                    Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, 0.1f,
-                    Animation.RELATIVE_TO_SELF, 0.0f);
-            AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-            AnimationSet animationSet = new AnimationSet(true);
-            animationSet.addAnimation(translateAnimation);
-            animationSet.addAnimation(alphaAnimation);
-            animationSet.setInterpolator(new DecelerateInterpolator());
-            animationSet.setDuration(250);
-            return animationSet;
-        } else if (superActivityToast.getAnimations() == SuperToast.Animations.FADE) {
-            Animation animation = new AlphaAnimation(0f, 1f);
-            animation.setDuration(500);
-            animation.setInterpolator(new DecelerateInterpolator());
-            return animation;
-
-        } else {
-            //TODO 这里bottom的动画和pop差不多
-            return AnimationUtils.loadAnimation(superActivityToast.getActivity(), R.anim.supertoast_in);
+        switch (superActivityToast.getAnimations()) {
+            case FLYIN:
+                TranslateAnimation translateAnimation = new TranslateAnimation(
+                        Animation.RELATIVE_TO_SELF, 0.75f,
+                        Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, 0.0f);
+                AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+                AnimationSet animationSet = new AnimationSet(true);
+                animationSet.addAnimation(translateAnimation);
+                animationSet.addAnimation(alphaAnimation);
+                animationSet.setInterpolator(new DecelerateInterpolator());
+                animationSet.setDuration(250);
+                return animationSet;
+            case POPUP:
+                TranslateAnimation translateAnimation2 = new TranslateAnimation(
+                        Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, 0.1f,
+                        Animation.RELATIVE_TO_SELF, 0.0f);
+                AlphaAnimation alphaAnimation2 = new AlphaAnimation(0f, 1f);
+                AnimationSet animationSet2 = new AnimationSet(true);
+                animationSet2.addAnimation(translateAnimation2);
+                animationSet2.addAnimation(alphaAnimation2);
+                animationSet2.setInterpolator(new DecelerateInterpolator());
+                animationSet2.setDuration(250);
+                return animationSet2;
+            case SCALE:
+                ScaleAnimation scaleAnimation = new ScaleAnimation(0.9f, 1.0f,
+                        0.9f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f);
+                AlphaAnimation alphaAnimation3 = new AlphaAnimation(0f, 1f);
+                AnimationSet animationSet3 = new AnimationSet(true);
+                animationSet3.addAnimation(scaleAnimation);
+                animationSet3.addAnimation(alphaAnimation3);
+                animationSet3.setInterpolator(new DecelerateInterpolator());
+                animationSet3.setDuration(250);
+                return animationSet3;
+            case FADE:
+                Animation animation = new AlphaAnimation(0f, 1f);
+                animation.setDuration(500);
+                animation.setInterpolator(new DecelerateInterpolator());
+                return animation;
+            default:
+                //TODO 这里bottom的动画和pop差不多,只不过效果更逼真于土豆的toast
+                return AnimationUtils.loadAnimation(superActivityToast.getActivity(), R.anim.supertoast_in);
         }
-
     }
 
-    /**
-     * Returns an animation based on the
-     * {@link feifei.library.supertoast.SuperToast.Animations} enums
-     */
     private Animation getDismissAnimation(SuperActivityToast superActivityToast) {
-        if (superActivityToast.getAnimations() == SuperToast.Animations.FLYIN) {
-            TranslateAnimation translateAnimation = new TranslateAnimation(
-                    Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, .75f,
-                    Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, 0.0f);
-            AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-            AnimationSet animationSet = new AnimationSet(true);
-            animationSet.addAnimation(translateAnimation);
-            animationSet.addAnimation(alphaAnimation);
-            animationSet.setInterpolator(new AccelerateInterpolator());
-            animationSet.setDuration(250);
-            return animationSet;
-        } else if (superActivityToast.getAnimations() == SuperToast.Animations.SCALE) {
-            ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.9f,
-                    1.0f, 0.9f, Animation.RELATIVE_TO_SELF, 0.5f,
-                    Animation.RELATIVE_TO_SELF, 0.5f);
-            AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-            AnimationSet animationSet = new AnimationSet(true);
-            animationSet.addAnimation(scaleAnimation);
-            animationSet.addAnimation(alphaAnimation);
-            animationSet.setInterpolator(new DecelerateInterpolator());
-            animationSet.setDuration(250);
-            return animationSet;
-        } else if (superActivityToast.getAnimations() == SuperToast.Animations.POPUP) {
-            TranslateAnimation translateAnimation = new TranslateAnimation(
-                    Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, 0.1f);
-            AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-            AnimationSet animationSet = new AnimationSet(true);
-            animationSet.addAnimation(translateAnimation);
-            animationSet.addAnimation(alphaAnimation);
-            animationSet.setInterpolator(new DecelerateInterpolator());
-            animationSet.setDuration(250);
-            return animationSet;
-        } else if (superActivityToast.getAnimations() == SuperToast.Animations.FADE) {
-            AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-            alphaAnimation.setDuration(500);
-            alphaAnimation.setInterpolator(new AccelerateInterpolator());
-            return alphaAnimation;
-        } else {
-            //TODO 这里bottom的动画和pop差不多
-            return AnimationUtils.loadAnimation(superActivityToast.getActivity(), R.anim.supertoast_out);
+        switch (superActivityToast.getAnimations()) {
+            case FLYIN:
+                TranslateAnimation translateAnimation = new TranslateAnimation(
+                        Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, .75f,
+                        Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, 0.0f);
+                AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
+                AnimationSet animationSet = new AnimationSet(true);
+                animationSet.addAnimation(translateAnimation);
+                animationSet.addAnimation(alphaAnimation);
+                animationSet.setInterpolator(new AccelerateInterpolator());
+                animationSet.setDuration(250);
+                return animationSet;
+            case POPUP:
+                TranslateAnimation translateAnimation2 = new TranslateAnimation(
+                        Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, 0.1f);
+                AlphaAnimation alphaAnimation2 = new AlphaAnimation(1f, 0f);
+                AnimationSet animationSet2 = new AnimationSet(true);
+                animationSet2.addAnimation(translateAnimation2);
+                animationSet2.addAnimation(alphaAnimation2);
+                animationSet2.setInterpolator(new DecelerateInterpolator());
+                animationSet2.setDuration(250);
+                return animationSet2;
+            case SCALE:
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.9f,
+                        1.0f, 0.9f, Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f);
+                AlphaAnimation alphaAnimation3 = new AlphaAnimation(1f, 0f);
+                AnimationSet animationSet3 = new AnimationSet(true);
+                animationSet3.addAnimation(scaleAnimation);
+                animationSet3.addAnimation(alphaAnimation3);
+                animationSet3.setInterpolator(new DecelerateInterpolator());
+                animationSet3.setDuration(250);
+                return animationSet3;
+            case FADE:
+                AlphaAnimation animation = new AlphaAnimation(1f, 0f);
+                animation.setDuration(500);
+                animation.setInterpolator(new AccelerateInterpolator());
+                return animation;
+            default:
+                //TODO 这里bottom的动画和pop差不多
+                return AnimationUtils.loadAnimation(superActivityToast.getActivity(), R.anim.supertoast_out);
         }
     }
 }

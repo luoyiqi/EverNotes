@@ -1,11 +1,13 @@
 package com.feifei.study.demo.SuperToast;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,8 +79,14 @@ public class FragmentSuperCardToast extends Fragment {
         showButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-//                startActivity(new Intent(getActivity(), UndoBar.class));
-                SuperActivityToast superActivityToast=new SuperActivityToast(getActivity(), SuperToast.Type.BUTTON);
+                startActivity(new Intent(getActivity(), UndoBar.class));
+                return false;
+            }
+        });
+        showButton.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                SuperActivityToast superActivityToast = new SuperActivityToast(getActivity(), SuperToast.Type.BUTTON);
                 superActivityToast.setAnimations(SuperToast.Animations.POPUP);
 //                superActivityToast.setBackground(SuperToast.Background.BLACK);
                 superActivityToast.setButtonText("撤销");
@@ -161,6 +169,7 @@ public class FragmentSuperCardToast extends Fragment {
                 superCardToast.setAnimations(SuperToast.Animations.SCALE);
                 break;
             case 4:
+                //加了一个土豆toast的demo
                 superCardToast.setAnimations(SuperToast.Animations.BOTTOM);
                 break;
         }

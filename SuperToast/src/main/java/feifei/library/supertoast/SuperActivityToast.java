@@ -138,7 +138,7 @@ public class SuperActivityToast {
                         mViewGroup, false);
                 break;
             case BUTTON:
-                //TODO 这里改过要用的布局
+                //TODO 这里改过要用的布局superactivitytoast_button2
                 mToastView = mLayoutInflater.inflate(
                         R.layout.superactivitytoast_button2, mViewGroup, false);
                 mButton = (Button) mToastView.findViewById(R.id.button);
@@ -343,8 +343,7 @@ public class SuperActivityToast {
     /**
      * If true will show the {@value #TAG} without animation.
      *
-     * @param showImmediate
-     *            boolean
+     * @param showImmediate boolean
      */
     public void setShowImmediate(boolean showImmediate) {
         this.showImmediate = showImmediate;
@@ -744,7 +743,7 @@ public class SuperActivityToast {
             int screenSize = activity.getResources().getConfiguration().screenLayout
                     & Configuration.SCREENLAYOUT_SIZE_MASK;
             /*
-			 * Changes the size of the BUTTON type SuperActivityToast to mirror
+             * Changes the size of the BUTTON type SuperActivityToast to mirror
 			 * Gmail app
 			 */
             if (screenSize >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
@@ -752,7 +751,7 @@ public class SuperActivityToast {
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
                 layoutParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
-                //TODO 这个地方改了边距
+                //TODO 这个地方改了边距，不过这里是保存状态的情景，真实的在style里
 //				layoutParams.bottomMargin = (int) activity.getResources()
 //						.getDimension(R.dimen.buttontoast_hover);
 //				layoutParams.rightMargin = (int) activity.getResources()

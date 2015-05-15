@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/SuperToast/src/main/res/anim/supertoast_in.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/SuperToast/src/main/res/anim/supertoast_out.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/SuperToast/src/main/res/drawable/supertoast_dark.xml" charset="GBK" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
