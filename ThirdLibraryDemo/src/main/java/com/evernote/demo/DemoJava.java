@@ -38,8 +38,7 @@ import java.util.List;
  * 3.申请key，然后激活
  */
 public class DemoJava extends Activity {
-    //    private static final String AUTH_TOKEN = "这里填写你申请的token";
-    private static final String AUTH_TOKEN = "S=s8:U=e3e2:E=153648af292:C=14c0cd9c688:P=1cd:A=en-devtoken:V=2:H=24e3247056245045e4fd3c43f17a1a01";
+        private static final String AUTH_TOKEN = "这里填写你申请的token";
 
     private UserStoreClient userStore;
     private NoteStoreClient noteStore;

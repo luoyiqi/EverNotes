@@ -76,5 +76,12 @@
         android:layout_height="wrap_content"
         android:onClick="demo"
         android:text="印象笔记JAVA"/>
+
+    <Button
+        android:id="@+id/button11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="demo"
+        android:text="四向刷新view"/>
 </GridLayout>
 

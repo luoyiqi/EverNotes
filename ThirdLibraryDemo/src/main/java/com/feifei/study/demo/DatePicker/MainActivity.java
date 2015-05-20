@@ -11,6 +11,7 @@ import com.feifei.study.R;
 import com.feifei.study.demo.RefreshView.RefreshDemo;
 import com.feifei.study.demo.RefreshView.RefreshGridActivity;
 import com.feifei.study.demo.RefreshView.RefreshListActivity;
+import com.feifei.study.demo.RefreshView.RefreshSlideActivity;
 import com.feifei.study.demo.SlidingMenu.ExampleListActivity;
 import com.feifei.study.demo.SuperToast.ToastActivity;
 
@@ -72,6 +73,8 @@ public class MainActivity extends Activity {
                 break;
             case R.id.button10:
                 startActivity (new Intent (this, DemoJava.class));
+            case R.id.button11:
+                startActivity (new Intent (this, RefreshSlideActivity.class));
                 break;
         }
     }
