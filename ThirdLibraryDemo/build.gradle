@@ -26,4 +26,5 @@ dependencies {
     compile project(':SuperToast')
     compile project(':RefreshView')
     compile project(':DatePicker')
+    compile project(':EverNote')
 }

@@ -1,4 +1,3 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="feifei.library.slidingmenu">
+<manifest
+    package="feifei.library.slidingmenu"/>
 
-</manifest>

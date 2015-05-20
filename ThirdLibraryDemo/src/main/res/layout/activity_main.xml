@@ -1,30 +1,30 @@
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/grid"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
+<GridLayout android:id="@+id/grid"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
 
     <Button
         android:id="@+id/button1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="demo"
-        android:text="SlidingMenu" />
+        android:text="SlidingMenu"/>
 
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="demo"
-        android:text="SuperToast" />
+        android:text="SuperToast"/>
 
     <Button
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="demo"
-        android:text="GridView" />
+        android:text="GridView"/>
 
 
     <Button
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="demo"
-        android:text="ListView" />
+        android:text="ListView"/>
 
 
     <Button
@@ -40,27 +40,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="demo"
-        android:text="ExpandListView" />
+        android:text="ExpandListView"/>
 
     <Button
         android:id="@+id/button6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="demo"
-        android:text="citypicker2" />
+        android:text="citypicker2"/>
 
     <Button
         android:id="@+id/button7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="demo"
-        android:text="DatePicker" />
+        android:text="DatePicker"/>
 
     <Button
         android:id="@+id/button8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="demo"
-        android:text="CityPicker" />
+        android:text="CityPicker"/>
+
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="demo"
+        android:text="印象笔记Android"/>
+
+    <Button
+        android:id="@+id/button10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="demo"
+        android:text="印象笔记JAVA"/>
 </GridLayout>
 

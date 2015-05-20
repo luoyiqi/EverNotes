@@ -1,1 +1,1 @@
-include ':RefreshView', ':SlidingMenu', ':SuperToast', ':DatePicker', 'ThirdLibraryDemo'
+include ':RefreshView', ':SlidingMenu', ':SuperToast', ':DatePicker', 'ThirdLibraryDemo', ':EverNote'

@@ -1,34 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.feifei.study">
+<manifest package="com.feifei.study"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:label="@string/app_name"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".demo.SuperToast.ToastActivity" />
-        <activity android:name=".demo.SuperToast.UndoBar" />
+        <activity android:name=".demo.SuperToast.ToastActivity"/>
+        <activity android:name=".demo.SuperToast.UndoBar"/>
         <activity android:name=".demo.RefreshView.RefreshDemo"></activity>
-        <activity android:name=".demo.RefreshView.RefreshListActivity" />
-        <activity android:name=".demo.RefreshView.RefreshGridActivity" />
-        <activity android:name=".demo.SlidingMenu.AttachExample" />
-        <activity android:name=".demo.SlidingMenu.ResponsiveUIActivity" />
-        <activity android:name=".demo.SlidingMenu.BirdActivity" />
+        <activity android:name=".demo.RefreshView.RefreshListActivity"/>
+        <activity android:name=".demo.RefreshView.RefreshGridActivity"/>
+        <activity android:name=".demo.SlidingMenu.AttachExample"/>
+        <activity android:name=".demo.SlidingMenu.ResponsiveUIActivity"/>
+        <activity android:name=".demo.SlidingMenu.BirdActivity"/>
         <activity android:name=".demo.SlidingMenu.ExampleListActivity"></activity>
         <activity android:name=".demo.SlidingMenu.PropertiesActivity"></activity>
-        <activity android:name=".demo.SlidingMenu.ViewPagerActivity" />
+        <activity android:name=".demo.SlidingMenu.ViewPagerActivity"/>
         <activity
             android:name=".demo.DatePicker.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.evernote.demo.DemoActivityMain"
+            android:label="@string/app_name">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name="com.evernote.demo.DemoJava">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity
+            android:name="com.evernote.demo.DemoImagePicker"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:name="com.evernote.demo.DemoSimpleNote"/>
+        <activity
+            android:name="com.evernote.demo.DemoSearchNotes">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+        <activity
+            android:name="com.evernote.demo.DemoActivityBase"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:name="com.evernote.client.android.EvernoteOAuthActivity"
+            android:configChanges="orientation|keyboardHidden"/>
     </application>
 
 </manifest>

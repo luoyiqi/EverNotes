@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">印象笔记</string>
+    <string name="err_creating_note">创建笔记错误</string>
+    <string name="msg_image_saved">图片保存成功</string>
+    <string name="label_app_title">Evernote Demo</string>
+    <string name="label_select_button">选择图片</string>
+    <string name="label_message">没有选择图片</string>
+    <string name="label_save_button">保存</string>
+    <string name="err_image_selected">选择图片</string>
+    <string name="err_retrieving_resource">Error retrieving resource</string>
+    <string name="msg_retrieved_resource">Retrieved resource from server</string>
+    <string name="esdk__pick_notebook">选择一个笔记本</string>
+    <string name="label_login">登录</string>
+    <string name="label_logout">登出</string>
+    <string name="label_search">搜索</string>
+    <string name="esdk__image_picker">选择图片</string>
+    <string name="esdk__simple_note">创建笔记</string>
+    <string name="esdk__search_notes">搜索笔记</string>
+    <string name="label_select_notebook_button">选择笔记本</string>
+    <string name="title">笔记标题</string>
+    <string name="content">笔记内容</string>
+    <string name="empty_content_error">标题和内容不能为空</string>
+    <string name="note_saved">保存笔记成功</string>
+    <string name="notes_searched">完成搜索</string>
+    <string name="ok">Ok</string>
+    <string name="simple_note">创建笔记</string>
+    <string name="image_picker">选择图片</string>
+    <string name="search_notes">搜索笔记</string>
+    <string name="search_hint">搜索笔记</string>
+    <string name="error_listing_notebooks">Error listing notebooks</string>
+    <string name="error_creating_notestore">Error creating notestore</string>
+    <string name="error_saving_note">保存失败</string>
+    <string name="error_listing_notes">Error listing note</string>
+    <string name="CANNOT_GET_LINKED_NOTEBOOK">Cannot get linked notebook</string>
+    <string name="CANT_LIST_APP_LNB">Can\'t select notebook: account can only access one linked notebook</string>
+    <string name="ERROR_GETTING_LINKED_NOTEBOOK">Error getting linked notebook</string>
+</resources>

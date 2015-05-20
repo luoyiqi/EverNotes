@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="esdk__main_list">
+        <item>@string/esdk__image_picker</item>
+        <item>@string/esdk__simple_note</item>
+        <item>@string/esdk__search_notes</item>
+    </string-array>
     <array name="navigation_list">
         <item>"SuperToast"</item>
         <item>"SuperActivityToast"</item>

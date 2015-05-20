@@ -1,0 +1,4 @@
+<manifest package="com.evernote.sdk"/>
+    <!--<activity-->
+    <!--android:name="com.evernote.client.android.EvernoteOAuthActivity"-->
+    <!--android:configChanges="orientation|keyboardHidden"/>-->

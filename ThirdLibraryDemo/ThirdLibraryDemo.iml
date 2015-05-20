@@ -93,6 +93,7 @@
     <orderEntry type="library" exported="" name="support-annotations-22.1.1" level="project" />
     <orderEntry type="module" module-name="RefreshView" exported="" />
     <orderEntry type="module" module-name="SlidingMenu" exported="" />
+    <orderEntry type="module" module-name="EverNote" exported="" />
     <orderEntry type="module" module-name="DatePicker" exported="" />
     <orderEntry type="module" module-name="SuperToast" exported="" />
   </component>

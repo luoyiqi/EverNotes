@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/DatePicker" />
+            <option value="$PROJECT_DIR$/EverNote" />
             <option value="$PROJECT_DIR$/RefreshView" />
             <option value="$PROJECT_DIR$/SlidingMenu" />
             <option value="$PROJECT_DIR$/SuperToast" />

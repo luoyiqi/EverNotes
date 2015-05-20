@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <issue id="DefaultLocale">
+        <ignore path="src/com/evernote/thrift/TBaseHelper.java" />
+    </issue>
+</lint>
