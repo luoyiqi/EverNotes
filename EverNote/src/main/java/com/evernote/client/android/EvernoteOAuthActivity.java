@@ -147,6 +147,17 @@ public class EvernoteOAuthActivity extends Activity {
         mWebView.setWebChromeClient (mWebChromeClient);
         mWebView.getSettings ().setJavaScriptEnabled (true);
 
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//            //关闭硬件加速
+//            mWebView.setLayerType (View.LAYER_TYPE_SOFTWARE, null);
+//            //背景色设为透明
+//            mWebView.setBackgroundColor (0);
+//            //获取一个圆角的Bitmap实例
+//            BitmapDrawable bitmapDrawable = new BitmapDrawable (getRoundedBitmap ());
+//            //设置成WebView控件的背景
+//            mWebView.setBackground (bitmapDrawable);
+//        }
+
         if (savedInstanceState != null) {
             mEvernoteService = savedInstanceState.getParcelable (EXTRA_EVERNOTE_SERVICE);
             mConsumerKey = savedInstanceState.getString (EXTRA_CONSUMER_KEY);
@@ -508,5 +519,6 @@ public class EvernoteOAuthActivity extends Activity {
                     mSelectedBootstrapProfile.getSettings ().getServiceHost ()));
         }
     }
+
 
 }

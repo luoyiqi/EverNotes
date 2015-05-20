@@ -4,6 +4,8 @@
     <file url="file://$PROJECT_DIR$/EverNote" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/EverNote/src/main/java/com/evernote/client/android/ToastUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/EverNote/src/main/res/drawable/toast_dark.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/EverNote/src/main/res/drawable/white_round.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/EverNote/src/main/res/drawable/white_round_trans.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/RefreshView/src/main/java/feifei/library/refreshview/base/SlideCutListView.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>

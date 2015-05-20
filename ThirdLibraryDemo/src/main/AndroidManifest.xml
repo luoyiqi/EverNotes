@@ -70,6 +70,7 @@
             android:configChanges="orientation|keyboardHidden"/>
         <activity
             android:name="com.evernote.client.android.EvernoteOAuthActivity"
+            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth"
             android:configChanges="orientation|keyboardHidden"/>
     </application>
 

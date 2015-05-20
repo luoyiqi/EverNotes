@@ -27,10 +27,7 @@ public final class R {
         public static int esdk__err_api_setup=0x7f040000;
         public static int esdk__err_authentication=0x7f040001;
         public static int esdk__err_protocol_version=0x7f040002;
-        public static int esdk__evernote=0x7f040003;
-        public static int esdk__evernote_login_failed=0x7f040004;
-        public static int esdk__evernote_login_successful=0x7f040005;
-        public static int esdk__loading=0x7f040006;
-        public static int esdk__switch_service=0x7f040007;
+        public static int esdk__loading=0x7f040003;
+        public static int esdk__switch_service=0x7f040004;
     }
 }

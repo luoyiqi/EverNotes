@@ -62,9 +62,10 @@ public class DemoActivityBase extends Activity {
 
     // Your Evernote API key. See http://dev.evernote.com/documentation/cloud/
     // Please obfuscate your code to help keep these values secret.
-    private static final String CONSUMER_KEY = "填写你申请的key";
-    private static final String CONSUMER_SECRET = "填写你申请的secret";
-
+//    private static final String CONSUMER_KEY = "填写你申请的key";
+//    private static final String CONSUMER_SECRET = "填写你申请的secret";
+    private static final String CONSUMER_KEY = "qweasd6886-2489";
+    private static final String CONSUMER_SECRET = "b1a32852c7ba97d2";
     // Initial development is done on Evernote's testing service, the sandbox.
     // Change to HOST_PRODUCTION to use the Evernote production service
     // once your code is complete, or HOST_CHINA to use the Yinxiang Biji
