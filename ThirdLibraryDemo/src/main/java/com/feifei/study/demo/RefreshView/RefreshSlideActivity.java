@@ -83,7 +83,7 @@ public final class RefreshSlideActivity extends Activity implements SlideCutList
         mAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, mListItems);
         mSlideView.setAdapter (mAdapter);
     }
-
+    //pullToRefresh有个问题就是小标差1，要list.get(position-1)
     @Override
     public void removeItem (SlideCutListView.RemoveDirection direction, int position) {
         switch (direction) {

@@ -44,7 +44,6 @@ import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.evernote.client.oauth.EvernoteAuthToken;
 import com.evernote.client.oauth.YinxiangApi;
@@ -60,446 +59,454 @@ import org.scribe.oauth.OAuthService;
 
 import java.util.ArrayList;
 
-	/**
-	 * An Android Activity for authenticating to Evernote using OAuth.
-	 * Third parties should not need to use this class directly.
-	 *
-	 *
-	 * class created by @tylersmithnet
-	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
-	public class EvernoteOAuthActivity extends Activity {
-		private static final String LOGTAG = "EvernoteOAuthActivity";
+/**
+ * An Android Activity for authenticating to Evernote using OAuth.
+ * Third parties should not need to use this class directly.
+ * <p/>
+ * <p/>
+ * class created by @tylersmithnet
+ */
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
+public class EvernoteOAuthActivity extends Activity {
+    private static final String LOGTAG = "EvernoteOAuthActivity";
 
-	static final String EXTRA_EVERNOTE_SERVICE = "EVERNOTE_HOST";
-	static final String EXTRA_CONSUMER_KEY = "CONSUMER_KEY";
-	static final String EXTRA_CONSUMER_SECRET = "CONSUMER_SECRET";
-	static final String EXTRA_REQUEST_TOKEN = "REQUEST_TOKEN";
-	static final String EXTRA_REQUEST_TOKEN_SECRET = "REQUEST_TOKEN_SECRET";
-	static final String EXTRA_SUPPORT_APP_LINKED_NOTEBOOKS = "SUPPORT_APP_LINKED_NOTEBOOKS";
-	static final String EXTRA_BOOTSTRAP_SELECTED_PROFILE_POS = "BOOTSTRAP_SELECTED_PROFILE_POS";
-	static final String EXTRA_BOOTSTRAP_SELECTED_PROFILE = "BOOTSTRAP_SELECTED_PROFILE";
-	static final String EXTRA_BOOTSTRAP_SELECTED_PROFILES = "BOOTSTRAP_SELECTED_PROFILES";
+    static final String EXTRA_EVERNOTE_SERVICE = "EVERNOTE_HOST";
+    static final String EXTRA_CONSUMER_KEY = "CONSUMER_KEY";
+    static final String EXTRA_CONSUMER_SECRET = "CONSUMER_SECRET";
+    static final String EXTRA_REQUEST_TOKEN = "REQUEST_TOKEN";
+    static final String EXTRA_REQUEST_TOKEN_SECRET = "REQUEST_TOKEN_SECRET";
+    static final String EXTRA_SUPPORT_APP_LINKED_NOTEBOOKS = "SUPPORT_APP_LINKED_NOTEBOOKS";
+    static final String EXTRA_BOOTSTRAP_SELECTED_PROFILE_POS = "BOOTSTRAP_SELECTED_PROFILE_POS";
+    static final String EXTRA_BOOTSTRAP_SELECTED_PROFILE = "BOOTSTRAP_SELECTED_PROFILE";
+    static final String EXTRA_BOOTSTRAP_SELECTED_PROFILES = "BOOTSTRAP_SELECTED_PROFILES";
 
-	private EvernoteSession.EvernoteService mEvernoteService = null;
+    private EvernoteSession.EvernoteService mEvernoteService = null;
 
-	private BootstrapProfile mSelectedBootstrapProfile;
-	private int mSelectedBootstrapProfilePos = 0;
-	private ArrayList<BootstrapProfile> mBootstrapProfiles = new ArrayList<BootstrapProfile>();
+    private BootstrapProfile mSelectedBootstrapProfile;
+    private int mSelectedBootstrapProfilePos = 0;
+    private ArrayList<BootstrapProfile> mBootstrapProfiles = new ArrayList<BootstrapProfile> ();
 
-	private String mConsumerKey = null;
-	private String mConsumerSecret = null;
-	private String mRequestToken = null;
-	private String mRequestTokenSecret = null;
-	private boolean mSupportAppLinkedNotebooks = false;
+    private String mConsumerKey = null;
+    private String mConsumerSecret = null;
+    private String mRequestToken = null;
+    private String mRequestTokenSecret = null;
+    private boolean mSupportAppLinkedNotebooks = false;
 
-	private final int DIALOG_PROGRESS = 101;
+    private final int DIALOG_PROGRESS = 101;
 
-	private Activity mActivity;
+    private Activity mActivity;
 
-	private WebView mWebView;
+    private WebView mWebView;
 
-	private AsyncTask mBeginAuthSyncTask = null;
-	private AsyncTask mCompleteAuthSyncTask = null;
+    private AsyncTask mBeginAuthSyncTask = null;
+    private AsyncTask mCompleteAuthSyncTask = null;
 
-	/**
-	 * Overrides the callback URL and authenticate
-	 */
-	private final WebViewClient mWebViewClient = new WebViewClient() {
+    /**
+     * Overrides the callback URL and authenticate
+     */
+    private final WebViewClient mWebViewClient = new WebViewClient () {
 
-		@Override
-		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			Uri uri = Uri.parse(url);
-			if (uri.getScheme().equals(getCallbackScheme())) {
-				if (mCompleteAuthSyncTask == null) {
-					mCompleteAuthSyncTask = new CompleteAuthAsyncTask().execute(uri);
-				}
-				return true;
-			}
-			return super.shouldOverrideUrlLoading(view, url);
-		}
-	};
+        @Override
+        public boolean shouldOverrideUrlLoading (WebView view, String url) {
+            Uri uri = Uri.parse (url);
+            if (uri.getScheme ().equals (getCallbackScheme ())) {
+                if (mCompleteAuthSyncTask == null) {
+                    mCompleteAuthSyncTask = new CompleteAuthAsyncTask ().execute (uri);
+                }
+                return true;
+            }
+            return super.shouldOverrideUrlLoading (view, url);
+        }
+    };
 
-	/**
-	 * Allows for showing progress
-	 */
-	private final WebChromeClient mWebChromeClient = new WebChromeClient() {
-		@Override
-		public void onProgressChanged(WebView view, int newProgress) {
-			super.onProgressChanged(view, newProgress);
-			mActivity.setProgress(newProgress * 1000);
-		}
-	};
+    /**
+     * Allows for showing progress
+     */
+    private final WebChromeClient mWebChromeClient = new WebChromeClient () {
+        @Override
+        public void onProgressChanged (WebView view, int newProgress) {
+            super.onProgressChanged (view, newProgress);
+            mActivity.setProgress (newProgress * 1000);
+        }
+    };
 
-	@SuppressLint("SetJavaScriptEnabled")
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @SuppressLint("SetJavaScriptEnabled")
+    @Override
+    public void onCreate (Bundle savedInstanceState) {
+        super.onCreate (savedInstanceState);
 
-		// Show web loading progress
-		getWindow().requestFeature(Window.FEATURE_PROGRESS);
+        // Show web loading progress
+        getWindow ().requestFeature (Window.FEATURE_PROGRESS);
 
-		setContentView(R.layout.esdk__webview);
-		mActivity = this;
+        setContentView (R.layout.esdk__webview);
+        mActivity = this;
 
-		mWebView = (WebView) findViewById(R.id.esdk__webview);
-		mWebView.setWebViewClient(mWebViewClient);
-		mWebView.setWebChromeClient(mWebChromeClient);
-		mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView = (WebView) findViewById (R.id.esdk__webview);
+        mWebView.setWebViewClient (mWebViewClient);
+        mWebView.setWebChromeClient (mWebChromeClient);
+        mWebView.getSettings ().setJavaScriptEnabled (true);
 
-		if (savedInstanceState != null) {
-			mEvernoteService = savedInstanceState.getParcelable(EXTRA_EVERNOTE_SERVICE);
-			mConsumerKey = savedInstanceState.getString(EXTRA_CONSUMER_KEY);
-			mConsumerSecret = savedInstanceState.getString(EXTRA_CONSUMER_SECRET);
-			mRequestToken = savedInstanceState.getString(EXTRA_REQUEST_TOKEN);
-			mRequestTokenSecret = savedInstanceState.getString(EXTRA_REQUEST_TOKEN_SECRET);
-			mSupportAppLinkedNotebooks = savedInstanceState
-					.getBoolean(EXTRA_SUPPORT_APP_LINKED_NOTEBOOKS);
-			mSelectedBootstrapProfile = (BootstrapProfile) savedInstanceState
-					.getSerializable(EXTRA_BOOTSTRAP_SELECTED_PROFILE);
-			mSelectedBootstrapProfilePos = savedInstanceState
-					.getInt(EXTRA_BOOTSTRAP_SELECTED_PROFILE_POS);
-			mBootstrapProfiles = (ArrayList<BootstrapProfile>) savedInstanceState
-					.getSerializable(EXTRA_BOOTSTRAP_SELECTED_PROFILES);
-			mWebView.restoreState(savedInstanceState);
+        if (savedInstanceState != null) {
+            mEvernoteService = savedInstanceState.getParcelable (EXTRA_EVERNOTE_SERVICE);
+            mConsumerKey = savedInstanceState.getString (EXTRA_CONSUMER_KEY);
+            mConsumerSecret = savedInstanceState.getString (EXTRA_CONSUMER_SECRET);
+            mRequestToken = savedInstanceState.getString (EXTRA_REQUEST_TOKEN);
+            mRequestTokenSecret = savedInstanceState.getString (EXTRA_REQUEST_TOKEN_SECRET);
+            mSupportAppLinkedNotebooks = savedInstanceState
+                    .getBoolean (EXTRA_SUPPORT_APP_LINKED_NOTEBOOKS);
+            mSelectedBootstrapProfile = (BootstrapProfile) savedInstanceState
+                    .getSerializable (EXTRA_BOOTSTRAP_SELECTED_PROFILE);
+            mSelectedBootstrapProfilePos = savedInstanceState
+                    .getInt (EXTRA_BOOTSTRAP_SELECTED_PROFILE_POS);
+            mBootstrapProfiles = (ArrayList<BootstrapProfile>) savedInstanceState
+                    .getSerializable (EXTRA_BOOTSTRAP_SELECTED_PROFILES);
+            mWebView.restoreState (savedInstanceState);
 
-		} else {
-			Intent intent = getIntent();
-			mEvernoteService = intent.getParcelableExtra(EXTRA_EVERNOTE_SERVICE);
-			mConsumerKey = intent.getStringExtra(EXTRA_CONSUMER_KEY);
-			mConsumerSecret = intent.getStringExtra(EXTRA_CONSUMER_SECRET);
-			mSupportAppLinkedNotebooks = intent.getBooleanExtra(EXTRA_SUPPORT_APP_LINKED_NOTEBOOKS,
-					false);
-		}
-	}
+        } else {
+            Intent intent = getIntent ();
+            mEvernoteService = intent.getParcelableExtra (EXTRA_EVERNOTE_SERVICE);
+            mConsumerKey = intent.getStringExtra (EXTRA_CONSUMER_KEY);
+            mConsumerSecret = intent.getStringExtra (EXTRA_CONSUMER_SECRET);
+            mSupportAppLinkedNotebooks = intent.getBooleanExtra (EXTRA_SUPPORT_APP_LINKED_NOTEBOOKS,
+                    false);
+        }
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+    @Override
+    protected void onResume () {
+        super.onResume ();
 
-		if (TextUtils.isEmpty(mConsumerKey) || TextUtils.isEmpty(mConsumerSecret)) {
-			exit(false);
-			return;
-		}
+        if (TextUtils.isEmpty (mConsumerKey) || TextUtils.isEmpty (mConsumerSecret)) {
+            exit (false);
+            return;
+        }
 
-		if (mSelectedBootstrapProfile == null) {
-			mBeginAuthSyncTask = new BootstrapAsyncTask().execute();
-		}
-	}
+        if (mSelectedBootstrapProfile == null) {
+            mBeginAuthSyncTask = new BootstrapAsyncTask ().execute ();
+        }
+    }
 
-	/**
-	 * Not needed because of conficChanges, but leaving in case developer does not add to manifest
-	 * @param outState
-	 */
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putParcelable(EXTRA_EVERNOTE_SERVICE, mEvernoteService);
-		outState.putString(EXTRA_CONSUMER_KEY, mConsumerKey);
-		outState.putString(EXTRA_CONSUMER_SECRET, mConsumerSecret);
-		outState.putBoolean(EXTRA_SUPPORT_APP_LINKED_NOTEBOOKS, mSupportAppLinkedNotebooks);
-		outState.putString(EXTRA_REQUEST_TOKEN, mRequestToken);
-		outState.putString(EXTRA_REQUEST_TOKEN_SECRET, mRequestTokenSecret);
-		outState.putSerializable(EXTRA_BOOTSTRAP_SELECTED_PROFILE, mSelectedBootstrapProfile);
-		outState.putInt(EXTRA_BOOTSTRAP_SELECTED_PROFILE_POS, mSelectedBootstrapProfilePos);
-		outState.putSerializable(EXTRA_BOOTSTRAP_SELECTED_PROFILES, mBootstrapProfiles);
-		mWebView.saveState(outState);
+    /**
+     * Not needed because of conficChanges, but leaving in case developer does not add to manifest
+     *
+     * @param outState
+     */
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        outState.putParcelable (EXTRA_EVERNOTE_SERVICE, mEvernoteService);
+        outState.putString (EXTRA_CONSUMER_KEY, mConsumerKey);
+        outState.putString (EXTRA_CONSUMER_SECRET, mConsumerSecret);
+        outState.putBoolean (EXTRA_SUPPORT_APP_LINKED_NOTEBOOKS, mSupportAppLinkedNotebooks);
+        outState.putString (EXTRA_REQUEST_TOKEN, mRequestToken);
+        outState.putString (EXTRA_REQUEST_TOKEN_SECRET, mRequestTokenSecret);
+        outState.putSerializable (EXTRA_BOOTSTRAP_SELECTED_PROFILE, mSelectedBootstrapProfile);
+        outState.putInt (EXTRA_BOOTSTRAP_SELECTED_PROFILE_POS, mSelectedBootstrapProfilePos);
+        outState.putSerializable (EXTRA_BOOTSTRAP_SELECTED_PROFILES, mBootstrapProfiles);
+        mWebView.saveState (outState);
 
-		super.onSaveInstanceState(outState);
-	}
+        super.onSaveInstanceState (outState);
+    }
 
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		switch (id) {
-		case DIALOG_PROGRESS:
-			return new ProgressDialog(EvernoteOAuthActivity.this);
-		}
-		// TODO onCreateDialog(int) is deprecated
-		return super.onCreateDialog(id);
-	}
+    @Override
+    protected Dialog onCreateDialog (int id) {
+        switch (id) {
+            case DIALOG_PROGRESS:
+                return new ProgressDialog (EvernoteOAuthActivity.this);
+        }
+        // TODO onCreateDialog(int) is deprecated
+        return super.onCreateDialog (id);
+    }
 
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
-		switch (id) {
-		case DIALOG_PROGRESS:
-			((ProgressDialog) dialog).setIndeterminate(true);
-			dialog.setCancelable(false);
-			((ProgressDialog) dialog).setMessage(getString(R.string.esdk__loading));
-		}
-	}
+    @Override
+    protected void onPrepareDialog (int id, Dialog dialog) {
+        switch (id) {
+            case DIALOG_PROGRESS:
+                ((ProgressDialog) dialog).setIndeterminate (true);
+                dialog.setCancelable (false);
+                ((ProgressDialog) dialog).setMessage (getString (R.string.esdk__loading));
+        }
+    }
 
-	/**
-	 * Specifies a URL scheme that uniquely identifies callbacks
-	 * to this application after a user authorizes access to their
-	 * Evernote account in our WebView.
-	 */
-	private String getCallbackScheme() {
-		return "en-oauth";
-	}
+    /**
+     * Specifies a URL scheme that uniquely identifies callbacks
+     * to this application after a user authorizes access to their
+     * Evernote account in our WebView.
+     */
+    private String getCallbackScheme () {
+        return "en-oauth";
+    }
 
-	/**
-	 * Create a Scribe OAuthService object that can be used to
-	 * perform OAuth authentication with the appropriate Evernote
-	 * service.
-	 */
-	private OAuthService createService() {
-		OAuthService builder = null;
-		Class apiClass = null;
-		String host = mSelectedBootstrapProfile.getSettings().getServiceHost();
+    /**
+     * Create a Scribe OAuthService object that can be used to
+     * perform OAuth authentication with the appropriate Evernote
+     * service.
+     */
+    private OAuthService createService () {
+        OAuthService builder = null;
+        Class apiClass = null;
+        String host = mSelectedBootstrapProfile.getSettings ().getServiceHost ();
 
-		if (host != null && !host.startsWith("http")) {
-			host = "https://" + host;
-		}
+        if (host != null && !host.startsWith ("http")) {
+            host = "https://" + host;
+        }
 
-		if (host.equals(EvernoteSession.HOST_SANDBOX)) {
-			apiClass = EvernoteApi.Sandbox.class;
-		} else if (host.equals(EvernoteSession.HOST_PRODUCTION)) {
-			apiClass = EvernoteApi.class;
-		} else if (host.equals(EvernoteSession.HOST_CHINA)) {
-			apiClass = YinxiangApi.class;
-		} else {
-			throw new IllegalArgumentException("Unsupported Evernote host: " + host);
-		}
-		builder = new ServiceBuilder().provider(apiClass).apiKey(mConsumerKey)
-				.apiSecret(mConsumerSecret).callback(getCallbackScheme() + "://callback").build();
+        if (host.equals (EvernoteSession.HOST_SANDBOX)) {
+            apiClass = EvernoteApi.Sandbox.class;
+        } else if (host.equals (EvernoteSession.HOST_PRODUCTION)) {
+            apiClass = EvernoteApi.class;
+        } else if (host.equals (EvernoteSession.HOST_CHINA)) {
+            apiClass = YinxiangApi.class;
+        } else {
+            throw new IllegalArgumentException ("Unsupported Evernote host: " + host);
+        }
+        builder = new ServiceBuilder ().provider (apiClass).apiKey (mConsumerKey)
+                .apiSecret (mConsumerSecret).callback (getCallbackScheme () + "://callback").build ();
 
-		return builder;
-	}
+        return builder;
+    }
 
-	/**
-	 * Exit the activity and display a toast message.
-	 * @param success Whether the OAuth process completed successfully.
-	 */
-	private void exit(final boolean success) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(
-						mActivity,
-						success ? R.string.esdk__evernote_login_successful
-								: R.string.esdk__evernote_login_failed, Toast.LENGTH_LONG).show();
-				setResult(success ? RESULT_OK : RESULT_CANCELED);
-				finish();
-			}
-		});
-	}
+    /**
+     * Exit the activity and display a toast message.
+     *
+     * @param success Whether the OAuth process completed successfully.
+     */
+    private void exit (final boolean success) {
+        runOnUiThread (new Runnable () {
+            @Override
+            public void run () {
 
-	/**
-	 * On honeycomb and above this will create an actionbar with the item to switch services
-	 * Below honeycomb it will create the options menu bound to a hardware key
-	 * @param menu
-	 * @return
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.esdk__oauth, menu);
+                ToastUtil.toast (mActivity, success ? "登录成功"
+                        : "登录失败");
+//				Toast.makeText(
+//						mActivity,
+//						success ? R.string.esdk__evernote_login_successful
+//								: R.string.esdk__evernote_login_failed, Toast.LENGTH_LONG).show();
+                setResult (success ? RESULT_OK : RESULT_CANCELED);
+                finish ();
+            }
+        });
+    }
 
-		return super.onCreateOptionsMenu(menu);
-	}
+    /**
+     * On honeycomb and above this will create an actionbar with the item to switch services
+     * Below honeycomb it will create the options menu bound to a hardware key
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu) {
+        MenuInflater inflater = getMenuInflater ();
+        inflater.inflate (R.menu.esdk__oauth, menu);
 
-	/**
-	 * On Honeycomb and above this is called when we invalidate, this happens when the {@link ArrayList} of
-	 * {@link BootstrapProfile} are updated.
-	 *
-	 * Below Honeycomb this is called when the user presses the menu button.
-	 *
-	 * This detects the number of bootstrap items and sets the UI element appropriately.
-	 *
-	 * @param menu
-	 * @return
-	 */
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		MenuItem itemSwitchService = menu.findItem(R.id.esdk__switch_service);
+        return super.onCreateOptionsMenu (menu);
+    }
 
-		if (mBootstrapProfiles != null && mBootstrapProfiles.size() > 1) {
-			if (BootstrapManager.CHINA_PROFILE.equals(mSelectedBootstrapProfile.getName())) {
-				itemSwitchService.setTitle(BootstrapManager.DISPLAY_EVERNOTE_INTL);
-			} else {
-				itemSwitchService.setTitle(BootstrapManager.DISPLAY_YXBIJI);
-			}
+    /**
+     * On Honeycomb and above this is called when we invalidate, this happens when the {@link ArrayList} of
+     * {@link BootstrapProfile} are updated.
+     * <p/>
+     * Below Honeycomb this is called when the user presses the menu button.
+     * <p/>
+     * This detects the number of bootstrap items and sets the UI element appropriately.
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        MenuItem itemSwitchService = menu.findItem (R.id.esdk__switch_service);
 
-			itemSwitchService.setVisible(true);
-		} else {
-			itemSwitchService.setVisible(false);
-		}
+        if (mBootstrapProfiles != null && mBootstrapProfiles.size () > 1) {
+            if (BootstrapManager.CHINA_PROFILE.equals (mSelectedBootstrapProfile.getName ())) {
+                itemSwitchService.setTitle (BootstrapManager.DISPLAY_EVERNOTE_INTL);
+            } else {
+                itemSwitchService.setTitle (BootstrapManager.DISPLAY_YXBIJI);
+            }
 
-		return super.onPrepareOptionsMenu(menu);
-	}
+            itemSwitchService.setVisible (true);
+        } else {
+            itemSwitchService.setVisible (false);
+        }
 
-	/**
-	 * This will select the next {@link BootstrapProfile} in {@link #mBootstrapProfiles} and start a new
-	 * webview load request.
-	 * @param item
-	 * @return
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.esdk__switch_service) {
-			if ((mBeginAuthSyncTask == null || mBeginAuthSyncTask.getStatus() != AsyncTask.Status.RUNNING)
-					&& (mSelectedBootstrapProfile != null && mBootstrapProfiles != null)) {
+        return super.onPrepareOptionsMenu (menu);
+    }
 
-				mSelectedBootstrapProfilePos = (mSelectedBootstrapProfilePos + 1)
-						% mBootstrapProfiles.size();
-				mBootstrapProfiles = null;
-				mSelectedBootstrapProfile = null;
+    /**
+     * This will select the next {@link BootstrapProfile} in {@link #mBootstrapProfiles} and start a new
+     * webview load request.
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        if (item.getItemId () == R.id.esdk__switch_service) {
+            if ((mBeginAuthSyncTask == null || mBeginAuthSyncTask.getStatus () != AsyncTask.Status.RUNNING)
+                    && (mSelectedBootstrapProfile != null && mBootstrapProfiles != null)) {
 
-				mBeginAuthSyncTask = new BootstrapAsyncTask().execute();
-			}
-		}
-		return true;
-	}
+                mSelectedBootstrapProfilePos = (mSelectedBootstrapProfilePos + 1)
+                        % mBootstrapProfiles.size ();
+                mBootstrapProfiles = null;
+                mSelectedBootstrapProfile = null;
 
-	/**
-	 * Get a request token from the Evernote service and send the user
-	 * to our WebView to authorize access.
-	 */
-	private class BootstrapAsyncTask extends AsyncTask<Void, Void, String> {
+                mBeginAuthSyncTask = new BootstrapAsyncTask ().execute ();
+            }
+        }
+        return true;
+    }
 
-		@Override
-		protected void onPreExecute() {
-			// TODO deprecated
-			showDialog(DIALOG_PROGRESS);
-		}
+    /**
+     * Get a request token from the Evernote service and send the user
+     * to our WebView to authorize access.
+     */
+    private class BootstrapAsyncTask extends AsyncTask<Void, Void, String> {
 
-		@Override
-		protected String doInBackground(Void... params) {
-			String url = null;
-			try {
+        @Override
+        protected void onPreExecute () {
+            // TODO deprecated
+            showDialog (DIALOG_PROGRESS);
+        }
 
-				EvernoteSession session = EvernoteSession.getOpenSession();
-				if (session != null) {
-					// Network request
-					BootstrapManager.BootstrapInfoWrapper infoWrapper = session
-							.getBootstrapSession().getBootstrapInfo();
+        @Override
+        protected String doInBackground (Void... params) {
+            String url = null;
+            try {
 
-					if (infoWrapper != null) {
-						BootstrapInfo info = infoWrapper.getBootstrapInfo();
-						if (info != null) {
-							mBootstrapProfiles = (ArrayList<BootstrapProfile>) info.getProfiles();
-							if (mBootstrapProfiles != null && mBootstrapProfiles.size() > 0
-									&& mSelectedBootstrapProfilePos < mBootstrapProfiles.size()) {
+                EvernoteSession session = EvernoteSession.getOpenSession ();
+                if (session != null) {
+                    // Network request
+                    BootstrapManager.BootstrapInfoWrapper infoWrapper = session
+                            .getBootstrapSession ().getBootstrapInfo ();
 
-								mSelectedBootstrapProfile = mBootstrapProfiles
-										.get(mSelectedBootstrapProfilePos);
-							}
-						}
-					}
-				}
+                    if (infoWrapper != null) {
+                        BootstrapInfo info = infoWrapper.getBootstrapInfo ();
+                        if (info != null) {
+                            mBootstrapProfiles = (ArrayList<BootstrapProfile>) info.getProfiles ();
+                            if (mBootstrapProfiles != null && mBootstrapProfiles.size () > 0
+                                    && mSelectedBootstrapProfilePos < mBootstrapProfiles.size ()) {
 
-				if (mSelectedBootstrapProfile == null
-						|| TextUtils.isEmpty(mSelectedBootstrapProfile.getSettings()
-								.getServiceHost())) {
-					Log.d(LOGTAG, "Bootstrap did not return a valid host");
-					return null;
-				}
+                                mSelectedBootstrapProfile = mBootstrapProfiles
+                                        .get (mSelectedBootstrapProfilePos);
+                            }
+                        }
+                    }
+                }
 
-				OAuthService service = createService();
+                if (mSelectedBootstrapProfile == null
+                        || TextUtils.isEmpty (mSelectedBootstrapProfile.getSettings ()
+                        .getServiceHost ())) {
+                    Log.d (LOGTAG, "Bootstrap did not return a valid host");
+                    return null;
+                }
 
-				Log.i(LOGTAG, "Retrieving OAuth request token...");
-				Token reqToken = service.getRequestToken();
-				mRequestToken = reqToken.getToken();
-				mRequestTokenSecret = reqToken.getSecret();
+                OAuthService service = createService ();
 
-				Log.i(LOGTAG, "Redirecting user for authorization...");
-				url = service.getAuthorizationUrl(reqToken);
-				if (mSupportAppLinkedNotebooks) {
-					url += "&supportLinkedSandbox=true";
-				}
-			} catch (BootstrapManager.ClientUnsupportedException cue) {
+                Log.i (LOGTAG, "Retrieving OAuth request token...");
+                Token reqToken = service.getRequestToken ();
+                mRequestToken = reqToken.getToken ();
+                mRequestTokenSecret = reqToken.getSecret ();
 
-				return null;
-			} catch (Exception ex) {
-				Log.e(LOGTAG, "Failed to obtain OAuth request token", ex);
-			}
-			return url;
-		}
+                Log.i (LOGTAG, "Redirecting user for authorization...");
+                url = service.getAuthorizationUrl (reqToken);
+                if (mSupportAppLinkedNotebooks) {
+                    url += "&supportLinkedSandbox=true";
+                }
+            } catch (BootstrapManager.ClientUnsupportedException cue) {
 
-		/**
-		 * Open a WebView to allow the user to authorize access to their account.
-		 * @param url The URL of the OAuth authorization web page.
-		 */
-		@Override
-		protected void onPostExecute(String url) {
-			// TODO deprecated
-			removeDialog(DIALOG_PROGRESS);
-			if (!TextUtils.isEmpty(url)) {
-				mWebView.loadUrl(url);
+                return null;
+            } catch (Exception ex) {
+                Log.e (LOGTAG, "Failed to obtain OAuth request token", ex);
+            }
+            return url;
+        }
 
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-					invalidateOptionsMenu();
-				}
-			} else {
-				exit(false);
-			}
-		}
-	}
+        /**
+         * Open a WebView to allow the user to authorize access to their account.
+         *
+         * @param url The URL of the OAuth authorization web page.
+         */
+        @Override
+        protected void onPostExecute (String url) {
+            // TODO deprecated
+            removeDialog (DIALOG_PROGRESS);
+            if (!TextUtils.isEmpty (url)) {
+                mWebView.loadUrl (url);
 
-	/**
-	 * An AsyncTask to complete the OAuth process after successful user authorization.
-	 */
-	private class CompleteAuthAsyncTask extends AsyncTask<Uri, Void, EvernoteAuthToken> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    invalidateOptionsMenu ();
+                }
+            } else {
+                exit (false);
+            }
+        }
+    }
 
-		@Override
-		protected void onPreExecute() {
-			// TODO deprecated
-			showDialog(DIALOG_PROGRESS);
-		}
+    /**
+     * An AsyncTask to complete the OAuth process after successful user authorization.
+     */
+    private class CompleteAuthAsyncTask extends AsyncTask<Uri, Void, EvernoteAuthToken> {
 
-		@Override
-		protected EvernoteAuthToken doInBackground(Uri... uris) {
-			EvernoteAuthToken authToken = null;
-			if (uris == null || uris.length == 0) {
-				return null;
-			}
-			Uri uri = uris[0];
+        @Override
+        protected void onPreExecute () {
+            // TODO deprecated
+            showDialog (DIALOG_PROGRESS);
+        }
 
-			if (!TextUtils.isEmpty(mRequestToken)) {
-				OAuthService service = createService();
-				String verifierString = uri.getQueryParameter("oauth_verifier");
-				String appLnbString = uri.getQueryParameter("sandbox_lnb");
-				boolean isAppLinkedNotebook = "true".equalsIgnoreCase(appLnbString);
+        @Override
+        protected EvernoteAuthToken doInBackground (Uri... uris) {
+            EvernoteAuthToken authToken = null;
+            if (uris == null || uris.length == 0) {
+                return null;
+            }
+            Uri uri = uris[0];
 
-				if (TextUtils.isEmpty(verifierString)) {
-					Log.i(LOGTAG, "User did not authorize access");
-				} else {
-					Verifier verifier = new Verifier(verifierString);
-					Log.i(LOGTAG, "Retrieving OAuth access token...");
-					try {
-						Token reqToken = new Token(mRequestToken, mRequestTokenSecret);
-						authToken = new EvernoteAuthToken(
-								service.getAccessToken(reqToken, verifier), isAppLinkedNotebook);
+            if (!TextUtils.isEmpty (mRequestToken)) {
+                OAuthService service = createService ();
+                String verifierString = uri.getQueryParameter ("oauth_verifier");
+                String appLnbString = uri.getQueryParameter ("sandbox_lnb");
+                boolean isAppLinkedNotebook = "true".equalsIgnoreCase (appLnbString);
 
-					} catch (Exception ex) {
-						Log.e(LOGTAG, "Failed to obtain OAuth access token", ex);
-					}
-				}
-			} else {
-				Log.d(LOGTAG, "Unable to retrieve OAuth access token, no request token");
-			}
+                if (TextUtils.isEmpty (verifierString)) {
+                    Log.i (LOGTAG, "User did not authorize access");
+                } else {
+                    Verifier verifier = new Verifier (verifierString);
+                    Log.i (LOGTAG, "Retrieving OAuth access token...");
+                    try {
+                        Token reqToken = new Token (mRequestToken, mRequestTokenSecret);
+                        authToken = new EvernoteAuthToken (
+                                service.getAccessToken (reqToken, verifier), isAppLinkedNotebook);
 
-			return authToken;
-		}
+                    } catch (Exception ex) {
+                        Log.e (LOGTAG, "Failed to obtain OAuth access token", ex);
+                    }
+                }
+            } else {
+                Log.d (LOGTAG, "Unable to retrieve OAuth access token, no request token");
+            }
 
-		/**
-		 * Save the authentication information resulting from a successful
-		 * OAuth authorization and complete the activity.
-		 */
+            return authToken;
+        }
 
-		@Override
-		protected void onPostExecute(EvernoteAuthToken authToken) {
-			// TODO deprecated
-			removeDialog(DIALOG_PROGRESS);
-			if (EvernoteSession.getOpenSession() == null) {
-				exit(false);
-				return;
-			}
+        /**
+         * Save the authentication information resulting from a successful
+         * OAuth authorization and complete the activity.
+         */
 
-			exit(EvernoteSession.getOpenSession().persistAuthenticationToken(
-					getApplicationContext(), authToken,
-					mSelectedBootstrapProfile.getSettings().getServiceHost()));
-		}
-	}
+        @Override
+        protected void onPostExecute (EvernoteAuthToken authToken) {
+            // TODO deprecated
+            removeDialog (DIALOG_PROGRESS);
+            if (EvernoteSession.getOpenSession () == null) {
+                exit (false);
+                return;
+            }
+
+            exit (EvernoteSession.getOpenSession ().persistAuthenticationToken (
+                    getApplicationContext (), authToken,
+                    mSelectedBootstrapProfile.getSettings ().getServiceHost ()));
+        }
+    }
 
 }
