@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/E:/GitHub/ThirdLibrary/EverNote/src/main/res/values/esdk__strings.xml -->
+    <!-- From: file:/D:/ThirdLibrary/EverNote/src/main/res/values/esdk__strings.xml -->
     <eat-comment/>
     <string name="esdk__err_api_setup">Error intializing Evernote API</string>
     <string name="esdk__err_authentication">Error authenticating to Evernote</string>

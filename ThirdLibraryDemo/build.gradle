@@ -22,9 +22,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.1.1'
-    compile project(':SlidingMenu')
     compile project(':SuperToast')
     compile project(':RefreshView')
-    compile project(':DatePicker')
     compile project(':EverNote')
 }
